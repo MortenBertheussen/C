@@ -25,12 +25,12 @@ struct list_iter
     node_t *node;
 };
 
-node_t *_new_node(void *elem)
+node_t *new_node(void *elem)
 {
     node_t *node;
     if ((node = malloc(sizeof(node_t))) != NULL)
     {
-        node = &(node_t){.next = NULL, .prev = NULL, .elem = elem};
+        *node = (node_t){.next = NULL, .prev = NULL, .elem = elem};
     }
     else
     {
@@ -42,9 +42,9 @@ node_t *_new_node(void *elem)
 list_t *list_create(cmpfunc_t cmpfunc, srtfunc_t srtfunc)
 {
     list_t *list;
-    if ((list = malloc(sizeof(node_t))) != NULL)
+    if ((list = malloc(sizeof(list_t))) != NULL)
     {
-        list = &(list_t){.head = NULL, .tail = NULL, .size = NULL, .cmpfunc = cmpfunc, .srtfunc = srtfunc};
+        *list = (list_t){.head = NULL, .tail = NULL, .size = 0, .cmpfunc = cmpfunc, .srtfunc = srtfunc};
     }
     else
     {
@@ -72,7 +72,7 @@ int_fast8_t list_size(list_t *list)
 
 void list_addfirst(list_t *list, void *elem)
 {
-    node_t *node = _newnode(elem);
+    node_t *node = new_node(elem);
     if (list->head == NULL)
     {
         list->head = list->tail = node;
@@ -88,7 +88,7 @@ void list_addfirst(list_t *list, void *elem)
 
 void list_addlast(list_t *list, void *elem)
 {
-    node_t *node = _newnode(elem);
+    node_t *node = new_node(elem);
     if (list->head == NULL)
     {
         list->head = list->tail = node;

@@ -4,7 +4,7 @@ LIST_HEADERS=list.h
 all: list 
 
 list: $(LIST_SRC) $(LIST_HEADERS) Makefile
-	gcc -o $@ $(LIST_SRC) -g  
+	gcc -Wall -o $@  $(LIST_SRC) -g -lpthread -lm
 	
 clean:
 	rm -f *~ *.o *.exe *.stackdump indexer assert_index

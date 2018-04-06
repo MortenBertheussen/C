@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <inttypes.h>
+#include <stdint.h>
 
 
 typedef int_fast8_t (*cmpfunc_t)(void *, void *);
