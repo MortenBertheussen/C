@@ -2,52 +2,104 @@
 
 struct listnode;
 
-typedef struct listnode listnode_t;
+typedef struct listnode node_t;
 
-struct listnode {
-    listnode_t *next;
-    listnode_t *prev;
+struct listnode
+{
+    node_t *next;
+    node_t *prev;
     void *elem;
 };
 
-struct list {
-    listnode_t *head;
-    listnode_t *tail;
+struct list
+{
+    node_t *head;
+    node_t *tail;
     int size;
     cmpfunc_t cmpfunc;
     srtfunc_t srtfunc;
 };
 
-struct list_iter {
-    listnode_t *node;
+struct list_iter
+{
+    node_t *node;
 };
 
-list_t *nullList = &(list_t){.head = NULL, .tail = NULL, .size = 0, .cmpfunc= NULL, .srtfunc = NULL};
-
+node_t *_new_node(void *elem)
+{
+    node_t *node;
+    if ((node = malloc(sizeof(node_t))) != NULL)
+    {
+        node = &(node_t){.next = NULL, .prev = NULL, .elem = elem};
+    }
+    else
+    {
+        //TODO: ERROR
+    }
+    return node;
+}
 
 list_t *list_create(cmpfunc_t cmpfunc, srtfunc_t srtfunc)
 {
-    return NULL;
+    list_t *list;
+    if ((list = malloc(sizeof(node_t))) != NULL)
+    {
+        list = &(list_t){.head = NULL, .tail = NULL, .size = NULL, .cmpfunc = cmpfunc, .srtfunc = srtfunc};
+    }
+    else
+    {
+        //TODO: ERROR
+    }
+    return list;
 }
 
 void list_destroy(list_t *list)
 {
-
+    node_t *tmp, *node = list->head;
+    while (node != NULL)
+    {
+        tmp = node;
+        node = node->next;
+        free(tmp);
+    }
+    free(list);
 }
 
 int_fast8_t list_size(list_t *list)
 {
-    return 0;
+    return list->size;
 }
 
 void list_addfirst(list_t *list, void *elem)
 {
-
+    node_t *node = _newnode(elem);
+    if (list->head == NULL)
+    {
+        list->head = list->tail = node;
+    }
+    else
+    {
+        list->head->prev = node;
+        node->next = list->head;
+        list->head = node;
+    }
+    list->size++;
 }
 
 void list_addlast(list_t *list, void *elem)
 {
-
+    node_t *node = _newnode(elem);
+    if (list->head == NULL)
+    {
+        list->head = list->tail = node;
+    }
+    else
+    {
+        list->tail->next = node;
+        node->prev = list->tail;
+        list->tail = node;
+    }
+    list->size++;
 }
 
 void *list_popfirst(list_t *list)
@@ -67,7 +119,6 @@ int_fast8_t list_contains(list_t *list, void *elem)
 
 void list_sort(list_t *list)
 {
-
 }
 
 struct list_iter;
@@ -80,7 +131,6 @@ list_iter_t *list_createiter(list_t *list)
 
 void list_destroyiter(list_iter_t *iter)
 {
-
 }
 
 int_fast8_t list_hasnext(list_iter_t *iter)
