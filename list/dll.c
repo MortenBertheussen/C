@@ -1,5 +1,30 @@
 #include "list.h"
 
+struct listnode;
+
+typedef struct listnode listnode_t;
+
+struct listnode {
+    listnode_t *next;
+    listnode_t *prev;
+    void *elem;
+};
+
+struct list {
+    listnode_t *head;
+    listnode_t *tail;
+    int size;
+    cmpfunc_t cmpfunc;
+    srtfunc_t srtfunc;
+};
+
+struct list_iter {
+    listnode_t *node;
+};
+
+list_t *nullList = &(list_t){.head = NULL, .tail = NULL, .size = 0, .cmpfunc= NULL, .srtfunc = NULL};
+
+
 list_t *list_create(cmpfunc_t cmpfunc, srtfunc_t srtfunc)
 {
     return NULL;
