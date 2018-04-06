@@ -21,19 +21,21 @@ void list_addfirst_test()
     cmpfunc_t cmpfunc = NULL;
     srtfunc_t srtfunc = NULL;
     list_t *list = list_create(cmpfunc, srtfunc);
-    list_iter_t *iter = list_createiter(list);
     assert(list != NULL);
 
     for (int i = 0; list_size(list) < 10; i++)
     {
-        list_addfirst(list, &i);
-        if (status &= (((uintptr_t)list_next(iter)) == (expected1[i])))
+        list_addfirst(list, i);
+    }
+    list_iter_t *iter = list_createiter(list);
+    for (int i = 0; list_hasnext(iter); i++)
+    {
+        if (status &= (((uintptr_t)list_next(iter)) == (expected2[i])))
             ;
     }
 
     list_destroy(list);
     list_destroyiter(iter);
-
     (status == 1) ? printf("%s success\n", __func__) : printf("%s false\n", __func__);
 }
 
@@ -43,19 +45,21 @@ void list_addlast_test()
     cmpfunc_t cmpfunc = NULL;
     srtfunc_t srtfunc = NULL;
     list_t *list = list_create(cmpfunc, srtfunc);
-    list_iter_t *iter = list_createiter(list);
     assert(list != NULL);
 
     for (int i = 0; list_size(list) < 10; i++)
     {
-        list_addfirst(list, &i);
-        if (status &= (((uintptr_t)list_next(iter)) == (expected2[i])))
+        list_addlast(list, i);
+    }
+    list_iter_t *iter = list_createiter(list);
+    for (int i = 0; list_hasnext(iter); i++)
+    {
+        if (status &= (((uintptr_t)list_next(iter)) == (expected1[i])))
             ;
     }
 
     list_destroy(list);
     list_destroyiter(iter);
-
     (status == 1) ? printf("%s success\n", __func__) : printf("%s false\n", __func__);
 }
 

@@ -114,6 +114,13 @@ void *list_poplast(list_t *list)
 
 int_fast8_t list_contains(list_t *list, void *elem)
 {
+    node_t *node = list->head;
+    while (node != NULL)
+    {
+        if (list->cmpfunc(elem, node->elem) == 0)
+            return 1;
+        node = node->next;
+    }
     return 0;
 }
 
@@ -126,19 +133,36 @@ typedef struct list_iter list_iter_t;
 
 list_iter_t *list_createiter(list_t *list)
 {
-    return NULL;
+    list_iter_t *iter;
+    if ((iter = malloc(sizeof(list_iter_t))) != NULL && list != NULL)
+    {
+        iter->node = list->head;
+    }
+    else
+    {
+        //TODO ERROR
+    }
+    return iter;
 }
 
 void list_destroyiter(list_iter_t *iter)
 {
+    free(iter);
 }
 
 int_fast8_t list_hasnext(list_iter_t *iter)
 {
-    return 0;
+    return (iter->node != NULL) ? 1 : 0;
 }
 
 void *list_next(list_iter_t *iter)
 {
-    return NULL;
+    void *elem = NULL;
+
+    if (iter->node != NULL)
+    {
+        elem = iter->node->elem;
+        iter->node = iter->node->next;
+    }
+    return elem;
 }
